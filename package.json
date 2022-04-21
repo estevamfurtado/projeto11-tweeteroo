@@ -1,0 +1,25 @@
+{
+    "name": "backend",
+    "type": "module",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/estevamfurtado/projeto11-tweeteroo.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/estevamfurtado/projeto11-tweeteroo/issues"
+    },
+    "homepage": "https://github.com/estevamfurtado/projeto11-tweeteroo#readme",
+    "dependencies": {
+        "axios": "^0.26.1",
+        "chalk": "^5.0.1"
+    }
+}
