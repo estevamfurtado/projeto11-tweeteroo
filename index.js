@@ -11,6 +11,7 @@ const user = {};
 const tweets = [];
 
 app.post("/sign-up", (req, res) => {
+
     const { username, avatar } = req.body;
 
     if (validateUsername(username) && validateAvatarUri(avatar)) {
@@ -18,11 +19,12 @@ app.post("/sign-up", (req, res) => {
         user.avatar = avatar;
         res.sendStatus(201);
     } else {
-        res.sendStatus(400);
+        res.status(400).send("Todos os campos são obrigatórios!");
     }
 })
 
 app.post("/tweets", (req, res) => {
+
     const { tweet } = req.body;
     if (validateTweet(tweet)) {
         tweets.push({
@@ -32,18 +34,44 @@ app.post("/tweets", (req, res) => {
         });
         res.sendStatus(201);
     } else {
-        res.sendStatus(400);
+        res.status(400).send("Todos os campos são obrigatórios!");
     }
 })
 
 app.get("/tweets", (req, res) => {
-    res.send(tweets);
+
+    let { page } = req.query;
+    page = parseInt(page);
+    console.log("page", page);
+
+    if (validatePage(page)) {
+        res.send(getPageTweets(page, tweets));
+    } else {
+        res.status(400).send("Informe uma página válida!");
+    }
+
 })
 
 app.get("/tweets/:username", (req, res) => {
     const username = req.params.username;
     res.send(tweets.filter(t => t.username === username));
 })
+
+
+// Get Page Tweets
+
+function getPageTweets(page, list) {
+    const pageTweets = [];
+    const len = list.length;
+
+    for (let i = len - (page - 1) * 10 - 1; (i > -1 && i >= len - (page) * 10); i--) {
+        console.log(i);
+        pageTweets.push(list[i]);
+    }
+
+    return pageTweets;
+}
+
 
 // Validations
 
@@ -57,6 +85,10 @@ function validateAvatarUri(avatarUri) {
 
 function validateTweet(tweet) {
     return (typeof tweet === 'string' && tweet !== "");
+}
+
+function validatePage(page) {
+    return page > 0;
 }
 
 
