@@ -1,11 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import chalk from 'chalk';
-import bodyParser from 'body-parser';
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors());
 
 const user = {};
@@ -39,6 +38,11 @@ app.post("/tweets", (req, res) => {
 
 app.get("/tweets", (req, res) => {
     res.send(tweets);
+})
+
+app.get("/tweets/:username", (req, res) => {
+    const username = req.params.username;
+    res.send(tweets.filter(t => t.username === username));
 })
 
 // Validations
