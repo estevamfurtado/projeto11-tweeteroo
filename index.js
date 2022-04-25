@@ -25,10 +25,12 @@ app.post("/sign-up", (req, res) => {
 
 app.post("/tweets", (req, res) => {
 
+    const username = req.headers.user;
     const { tweet } = req.body;
+
     if (validateTweet(tweet)) {
         tweets.push({
-            username: user.username,
+            username: username,
             avatar: user.avatar,
             tweet: tweet
         });
@@ -42,7 +44,6 @@ app.get("/tweets", (req, res) => {
 
     let { page } = req.query;
     page = parseInt(page);
-    console.log("page", page);
 
     if (validatePage(page)) {
         res.send(getPageTweets(page, tweets));
@@ -65,7 +66,6 @@ function getPageTweets(page, list) {
     const len = list.length;
 
     for (let i = len - (page - 1) * 10 - 1; (i > -1 && i >= len - (page) * 10); i--) {
-        console.log(i);
         pageTweets.push(list[i]);
     }
 
